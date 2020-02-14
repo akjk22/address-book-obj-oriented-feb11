@@ -41,10 +41,13 @@ function AddressBook() {
   
   // Business Logic for Contacts ---------
   // This is a constructor
-  function Contact(firstName, lastName, phoneNumber) {
+  function Contact(firstName, lastName, phoneNumber, emailAddress, workEmailAddress, physicalAddress) {
     this.firstName = firstName,
     this.lastName = lastName,
-    this.phoneNumber = phoneNumber
+    this.phoneNumber = phoneNumber,
+    this.emailAddress = emailAddress,
+    this.workEmailAddress = workEmailAddress,
+    this.physicalAddress = physicalAddress
   }
   
   // This is a prototype method to the constructor
@@ -62,7 +65,7 @@ function AddressBook() {
     var contactsList = $("ul#contacts");
     var htmlForContactInfo = "";
     addressBookToDisplay.contacts.forEach(function(contact) {
-      htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + "</li>";
+      htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + " " + contact.emailAddress + " " + contact.workEmailAddress + " " + contact.physicalAddress + "</li>";
     });
     contactsList.html(htmlForContactInfo);
   };
@@ -73,6 +76,9 @@ function AddressBook() {
     $(".first-name").html(contact.firstName);
     $(".last-name").html(contact.lastName);
     $(".phone-number").html(contact.phoneNumber);
+    $(".email-address").html(contact.emailAddress);
+    $(".work-email-address").html(contact.workEmailAddress);
+    $(".physical-address").html(contact.physicalAddress);
     var buttons = $("#buttons");
     buttons.empty();
     buttons.append("<button class='deleteButton' id=" + + contact.id + ">Delete</button>");
@@ -98,15 +104,23 @@ function AddressBook() {
       attachContactListeners();
     $("form#new-contact").submit(function(event) {
       event.preventDefault();
+ 
       var inputtedFirstName = $("input#new-first-name").val();
       var inputtedLastName = $("input#new-last-name").val();
       var inputtedPhoneNumber = $("input#new-phone-number").val();
-      
+      var inputtedEmailAddress = $("input#new-email-address").val();
+      var inputtedWorkEmailAddress = $("input#new-work-email-address").val();
+      var inputtedPhysicalAddress = $("input#new-physical-address").val();
       $("input#new-first-name").val("");
       $("input#new-last-name").val("");
       $("input#new-phone-number").val("");
+      $("input#new-email-address").val("");
+      $("input#new-work-email-address").val("");
+      $("input#new-physical-address").val("");
+      $("p").not(".not-this").remove();
+    
 
-      var newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber);
+      var newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber, inputtedEmailAddress, inputtedWorkEmailAddress, inputtedPhysicalAddress);
       addressBook.addContact(newContact);
       displayContactDetails(addressBook);
     })
